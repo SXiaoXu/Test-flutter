@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:leancloud_official_plugin/leancloud_plugin.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class ConversationListPage extends StatefulWidget {
   @override
@@ -33,9 +36,27 @@ class _ConversationListPageState extends State<ConversationListPage> {
       Conversation conversation = await jerry.createConversation(
           isUnique: true, members: {'Jerry22'}, name: 'Jerry22和Jerry');
       try {
-        textMessage = TextMessage();
-        textMessage.text = '起床了ma';
-        await conversation.send(message: textMessage);
+        ByteData imageData = await rootBundle.load('assets/test.jpg');
+        ImageMessage newMessage = ImageMessage.from(
+          binaryData: imageData.buffer.asUint8List(),
+          format: 'jpg',
+          name: 'test.jpg',
+        );
+
+//        6.5.12版本中就是空的值
+        print('newMessage.width------->:'+newMessage.width.toString());
+        print('newMessage.height------->:'+newMessage.height.toString());
+
+        try {
+          conversation.send(message: newMessage);
+        } catch (e) {
+          print(e);
+        }
+
+//
+//        textMessage = TextMessage();
+//        textMessage.text = '起床了ma';
+//        await conversation.send(message: textMessage);
       } catch (e) {
         print(e);
       }
