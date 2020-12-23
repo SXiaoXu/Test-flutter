@@ -10,68 +10,83 @@ class ConversationListPage extends StatefulWidget {
 }
 
 class _ConversationListPageState extends State<ConversationListPage> {
-  Client jerry;
-  TextMessage textMessage;
   @override
   void initState() {
     super.initState();
-    fetchData();
   }
-
   Future<List> fetchData() async {
-    Client jerry = Client(id: 'jerry');
-// Tom 登录
- await jerry.open();
-//根据 ID 查询
-//    ConversationQuery query = jerry.conversationQuery();
-//    query.whereEqualTo('objectId', '5ea69e7e90aef5aa8425832c');
-//    List<Conversation> conversations = await query.find();
-//    Conversation conversationFirst = conversations.first;
-//    await conversationFirst.updateInfo(attributes: {
-//      'name': '聪明的喵星人999',
-//    });
-//    return conversations;
+    Client jerry = Client(id: 'Jerry');
+    await jerry.open();
     try {
       // 创建与 Jerry 之间的对话
       Conversation conversation = await jerry.createConversation(
-          isUnique: true, members: {'Jerry22'}, name: 'Jerry22和Jerry');
+          isUnique: true, members: {'Tom'}, name: '111');
       try {
-        ByteData imageData = await rootBundle.load('assets/test.jpg');
-        ImageMessage newMessage = ImageMessage.from(
-          binaryData: imageData.buffer.asUint8List(),
-          format: 'jpg',
-          name: 'test.jpg',
-        );
-
-//        6.5.12版本中就是空的值
-        print('newMessage.width------->:'+newMessage.width.toString());
-        print('newMessage.height------->:'+newMessage.height.toString());
-
-        try {
-          conversation.send(message: newMessage);
-        } catch (e) {
-          print(e);
-        }
-
-//
-//        textMessage = TextMessage();
-//        textMessage.text = '起床了ma';
-//        await conversation.send(message: textMessage);
+        TextMessage message = TextMessage();
+        message.text = '一条非常重要的消息。';
+        await conversation.send(message: message, receipt: true);
+        print('发送成功');
       } catch (e) {
         print(e);
       }
     } catch (e) {
       print('创建会话失败:$e');
     }
+    jerry.onMessageRead = ({
+      Client client,
+      Conversation conversation,
+      String messageID,
+      String byClientID,
+      DateTime atDate,
+    }){
+      print('lastReadAt-----onMessageRead：' + conversation.lastReadAt.toString());
+    };
+    jerry.onMessage = ({
+      Client client,
+      Conversation conversation,
+      Message message,
+    }) {
+        print('收到的消息是：${message.stringContent}');
+        print('lastReadAtlastReadAtlastReadAtlastReadAt---->：${conversation.lastReadAt.toString()}');
+    };
+    jerry.onLastReadAtUpdated = ({
+      Client client,
+      Conversation conversation,
+    }){
+      print('lastReadAt---onLastReadAtUpdated' + conversation.lastReadAt.toString());
+    };
+
+    jerry.onLastDeliveredAtUpdated = ({
+      Client client,
+      Conversation conversation,
+    })async {
+      print('444.lastReadAt' + conversation.lastReadAt.toString());
+    };
+    jerry.onMessageDelivered = ({
+      Client client,
+      Conversation conversation,
+      String messageID,
+      String toClientID,
+      DateTime atDate,
+    })async {
+      print('messageID.messageID.messageID' + conversation.id.toString());
+    };
+
   }
 
-  Future queryConversation() async {
-    List conversations;
-    ConversationQuery query = jerry.conversationQuery();
-    query.whereEqualTo('objectId', '5ea69e7e90aef5aa8425832c');
-    conversations = await query.find();
-    Conversation conversationFirst = conversations.first;
-    print('name--->' + conversationFirst.name);
+
+  Future Tom() async {
+    Client Tom = Client(id: 'Tom');
+    await Tom.open();
+    Tom.onUnreadMessageCountUpdated = ({
+      Client client,
+      Conversation conversation,
+    }) async {
+      print('bbb.unreadMessageCount' + conversation.unreadMessageCount.toString());
+
+      await conversation.read();
+      print('666.unreadMessageCount' + conversation.unreadMessageCount.toString());
+    };
   }
 
   @override
@@ -88,12 +103,13 @@ class _ConversationListPageState extends State<ConversationListPage> {
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-            queryConversation();
+            Tom();
           },
         ),
-        body: new Center(
-          child: new Text('textMessage.ID =')
-        ),
+        body: new Center(child: FlatButton(
+          child: Text("normal"),
+          onPressed: () {fetchData();},
+        )),
       ),
     );
   }

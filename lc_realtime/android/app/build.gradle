@@ -60,9 +60,8 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     //使用存储服务
-    implementation 'cn.leancloud:storage-android:6.5.12'
-//使用即时通信
-    implementation 'cn.leancloud:realtime-android:6.5.12'
+    implementation 'cn.leancloud:storage-android:6.5.14'
+    //使用即时通信
+    implementation 'cn.leancloud:realtime-android:6.5.14'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-
 }
