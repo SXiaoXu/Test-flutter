@@ -25,6 +25,7 @@ class _ConversationListPageState extends State<ConversationListPage> {
         TextMessage message = TextMessage();
         message.text = '一条非常重要的消息。';
         await conversation.send(message: message, receipt: true);
+        await conversation.fetchReceiptTimestamps();
         print('发送成功');
       } catch (e) {
         print(e);
@@ -39,7 +40,7 @@ class _ConversationListPageState extends State<ConversationListPage> {
       String byClientID,
       DateTime atDate,
     }){
-      print('lastReadAt-----onMessageRead：' + conversation.lastReadAt.toString());
+      print('--onMessageRead--：' + conversation.lastReadAt.toString());
     };
     jerry.onMessage = ({
       Client client,
@@ -47,20 +48,20 @@ class _ConversationListPageState extends State<ConversationListPage> {
       Message message,
     }) {
         print('收到的消息是：${message.stringContent}');
-        print('lastReadAtlastReadAtlastReadAtlastReadAt---->：${conversation.lastReadAt.toString()}');
+        print('--onMessage--：' + conversation.lastReadAt.toString());
     };
     jerry.onLastReadAtUpdated = ({
       Client client,
       Conversation conversation,
     }){
-      print('lastReadAt---onLastReadAtUpdated' + conversation.lastReadAt.toString());
+      print('--onLastReadAtUpdated--：' + conversation.lastReadAt.toString());
     };
 
     jerry.onLastDeliveredAtUpdated = ({
       Client client,
       Conversation conversation,
     })async {
-      print('444.lastReadAt' + conversation.lastReadAt.toString());
+      print('--onLastDeliveredAtUpdated--：' + conversation.lastReadAt.toString());
     };
     jerry.onMessageDelivered = ({
       Client client,
@@ -69,7 +70,7 @@ class _ConversationListPageState extends State<ConversationListPage> {
       String toClientID,
       DateTime atDate,
     })async {
-      print('messageID.messageID.messageID' + conversation.id.toString());
+      print('--onMessageDelivered--：' + conversation.lastReadAt.toString());
     };
 
   }
@@ -82,10 +83,8 @@ class _ConversationListPageState extends State<ConversationListPage> {
       Client client,
       Conversation conversation,
     }) async {
-      print('bbb.unreadMessageCount' + conversation.unreadMessageCount.toString());
-
+      print('unreadMessageCount' + conversation.unreadMessageCount.toString());
       await conversation.read();
-      print('666.unreadMessageCount' + conversation.unreadMessageCount.toString());
     };
   }
 
