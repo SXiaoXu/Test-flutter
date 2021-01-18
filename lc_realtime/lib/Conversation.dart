@@ -16,93 +16,46 @@ class _ConversationListPageState extends State<ConversationListPage> {
   }
 
   Future<List> fetchData() async {
-    Client jerry = Client(id: 'Jerry');
-    await jerry.open();
+    //Todo
+  }
+
+  Future tom() async {
+    Client tom;
+    tom = Client(id: 'Tom');
+    await tom.open();
+
     try {
       // 创建与 Jerry 之间的对话
-      Conversation conversation = await jerry.createConversation(
-          isUnique: true, members: {'Tom'}, name: '111');
+      Conversation conversation = await tom.createConversation(
+          isUnique: true, members: {'Jerry'}, name: 'Tom & Jerry');
+
+      print('Conversation-ID = ' + conversation.id);
       try {
-        TextMessage message = TextMessage();
-        message.text = '测试一条暂态消息';
-        await conversation.send(message: message, transient: true);
-        await conversation.fetchReceiptTimestamps();
-        print('发送成功');
+        TextMessage textMessage = TextMessage();
+        textMessage.text = 'Jerry，起床了！';
+        await conversation.send(message: textMessage);
+        print('Message-ID = ' + textMessage.id);
+
       } catch (e) {
         print(e);
       }
     } catch (e) {
       print('创建会话失败:$e');
     }
-    jerry.onMessageRead = ({
-      Client client,
-      Conversation conversation,
-      String messageID,
-      String byClientID,
-      DateTime atDate,
-    }) {
-      print('--onMessageRead--：' + conversation.lastReadAt.toString());
-    };
-    jerry.onMessage = ({
-      Client client,
-      Conversation conversation,
-      Message message,
-    }) {
-      print('收到的消息是：${message.stringContent}');
-      print('--onMessage--：' + conversation.lastReadAt.toString());
-    };
-    jerry.onLastReadAtUpdated = ({
-      Client client,
-      Conversation conversation,
-    }) {
-      print('--onLastReadAtUpdated--：' + conversation.lastReadAt.toString());
-    };
 
-    jerry.onLastDeliveredAtUpdated = ({
-      Client client,
-      Conversation conversation,
-    }) async {
-      print(
-          '--onLastDeliveredAtUpdated--：' + conversation.lastReadAt.toString());
-    };
-    jerry.onMessageDelivered = ({
-      Client client,
-      Conversation conversation,
-      String messageID,
-      String toClientID,
-      DateTime atDate,
-    }) async {
-      print('--onMessageDelivered--：' + conversation.lastReadAt.toString());
-    };
-  }
+    String convID = '5fd895b670b5c8f1c55ba968';
+    ConversationQuery query = tom.conversationQuery();
+    query.whereEqualTo('objectId', convID);
+    query.includeLastMessage = true;
 
-  Future tom() async {
-    print('收到的消息是');
-    Client tom;
-    try {
-      tom = Client(id: 'Tom');
-      await tom.open();
-      print('open成功');
-    } catch (e) {
-      print('创建会话失败:$e');
-    }
-    tom.onUnreadMessageCountUpdated = ({
-      Client client,
-      Conversation conversation,
-    }) async {
-      print('unreadMessageCount' + conversation.unreadMessageCount.toString());
-      await conversation.read();
-    };
-    tom.onMessage = ({
-      Client client,
-      Conversation conversation,
-      Message message,
-    }) {
-      if (message is TextMessage) {
-        print('消息ID：${message.id}');
-        print('消息 isTransient：${message.isTransient}');
-      }
-    };
+    List<Conversation> conversations = await query.find();
+    assert(conversations.length == 1);
+    assert(conversations[0].lastMessage != null);
+    print("conversations[0].lastMessage-------" +
+        conversations[0].lastMessage.toString());
+
+    print("conversations[0].lastMessage.id-------" +
+        conversations[0].lastMessage.id);
   }
 
   @override
