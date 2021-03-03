@@ -15,47 +15,87 @@ class _ConversationListPageState extends State<ConversationListPage> {
     super.initState();
   }
 
-  Future<List> fetchData() async {
-    //Todo
-  }
+  Future<List> firstButton() async {
 
-  Future tom() async {
     Client tom;
     tom = Client(id: 'Tom');
     await tom.open();
-
-    try {
-      // 创建与 Jerry 之间的对话
-      Conversation conversation = await tom.createConversation(
-          isUnique: true, members: {'Jerry'}, name: 'Tom & Jerry');
-
-      print('Conversation-ID = ' + conversation.id);
-      try {
-        TextMessage textMessage = TextMessage();
-        textMessage.text = 'Jerry，起床了！';
-        await conversation.send(message: textMessage);
-        print('Message-ID = ' + textMessage.id);
-
-      } catch (e) {
-        print(e);
-      }
-    } catch (e) {
-      print('创建会话失败:$e');
-    }
 
     String convID = '5fd895b670b5c8f1c55ba968';
     ConversationQuery query = tom.conversationQuery();
     query.whereEqualTo('objectId', convID);
     query.includeLastMessage = true;
-
     List<Conversation> conversations = await query.find();
     assert(conversations.length == 1);
     assert(conversations[0].lastMessage != null);
     print("conversations[0].lastMessage-------" +
         conversations[0].lastMessage.toString());
-
     print("conversations[0].lastMessage.id-------" +
         conversations[0].lastMessage.id);
+
+
+    try {
+      List<Message> messages = await conversations[0].queryMessage(
+        direction: MessageQueryDirection.newToOld,
+      );
+      messages.forEach((element) {
+        print("newToOld-------" +element.id);
+      });
+
+
+    } catch (e) {
+      print(e);
+    }
+
+  }
+
+  Future secondButton() async {
+    Client tom;
+    tom = Client(id: 'Tom');
+//    await tom.open();
+
+//    try {
+      // 创建与 Jerry 之间的对话
+//      Conversation conversation = await tom.createConversation(
+//          isUnique: true, members: {'Jerry'}, name: 'Tom & Jerry');
+//      try {
+//        TextMessage textMessage = TextMessage();
+//        textMessage.text = 'Jerry，起床了！';
+//        await conversation.send(message: textMessage);
+//        print('Message-ID = ' + textMessage.id);
+//
+//      } catch (e) {
+//        print(e);
+//      }
+//    } catch (e) {
+//      print('创建会话失败:$e');
+//    }
+
+    String convID = '5fd895b670b5c8f1c55ba968';
+    ConversationQuery query = tom.conversationQuery();
+    query.whereEqualTo('objectId', convID);
+    query.includeLastMessage = true;
+    List<Conversation> conversations = await query.find();
+    assert(conversations.length == 1);
+    assert(conversations[0].lastMessage != null);
+    print("conversations[0].lastMessage-------" +
+        conversations[0].lastMessage.toString());
+    print("conversations[0].lastMessage.id-------" +
+        conversations[0].lastMessage.id);
+
+
+    try {
+      List<Message> messages = await conversations[0].queryMessage(
+        direction: MessageQueryDirection.oldToNew,
+      );
+
+      messages.forEach((element) {
+        print("oldToNew------" +element.id);
+      });
+      } catch (e) {
+      print(e);
+    }
+
   }
 
   @override
@@ -72,14 +112,14 @@ class _ConversationListPageState extends State<ConversationListPage> {
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-            tom();
+            secondButton();
           },
         ),
         body: new Center(
             child: FlatButton(
           child: Text("发送一条消息"),
           onPressed: () {
-            fetchData();
+            firstButton();
           },
         )),
       ),
