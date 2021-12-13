@@ -1,25 +1,27 @@
 PODS:
-  - Alamofire (5.4.1)
+  - Alamofire (5.4.4)
   - Flutter (1.0.0)
   - fluttertoast (0.0.2):
     - Flutter
+    - Toast
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - LeanCloud/Foundation (17.6.6):
-    - Alamofire (~> 5.3)
-  - LeanCloud/RTM-no-local-storage (17.6.6):
-    - LeanCloud/Foundation (= 17.6.6)
-    - SwiftProtobuf (~> 1.13)
+  - LeanCloud/Foundation (17.10.1):
+    - Alamofire (~> 5.4)
+  - LeanCloud/RTM-no-local-storage (17.10.1):
+    - LeanCloud/Foundation (= 17.10.1)
+    - SwiftProtobuf (~> 1.18)
   - leancloud_official_plugin (0.0.1):
     - Flutter
-    - LeanCloud/RTM-no-local-storage (~> 17.6)
+    - LeanCloud/RTM-no-local-storage (~> 17.10)
   - shared_preferences (0.0.1):
     - Flutter
-  - sqflite (0.0.1):
+  - sqflite (0.0.2):
     - Flutter
-    - FMDB (~> 2.7.2)
-  - SwiftProtobuf (1.14.0)
+    - FMDB (>= 2.7.5)
+  - SwiftProtobuf (1.18.0)
+  - Toast (4.0.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -34,6 +36,7 @@ SPEC REPOS:
     - FMDB
     - LeanCloud
     - SwiftProtobuf
+    - Toast
 
 EXTERNAL SOURCES:
   Flutter:
@@ -48,16 +51,17 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
-  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
-  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
+  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  LeanCloud: 90c5a98c6f3ceb66b707bd668f10ef328034b614
-  leancloud_official_plugin: 4fa7330f9e7310280bb3494848a982bc37cce5f0
+  LeanCloud: e6de4b8129ab68be7f70a9b77c4304f71c5a1a2c
+  leancloud_official_plugin: 6f30dc57a7f181193f511355c17519a61dce033d
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
-  sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
-  SwiftProtobuf: ed465ed18402f998fd117f631da27e0168e6b59c
+  sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
+  SwiftProtobuf: c3c12645230d9b09c72267e0de89468c5543bd86
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: 21b64fbb12492d731c9be90cbe0f2d328bef4b49
 
 COCOAPODS: 1.10.1

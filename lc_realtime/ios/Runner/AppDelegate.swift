@@ -10,9 +10,9 @@ import LeanCloud
         do {
             LCApplication.logLevel = .all
             try LCApplication.default.set(
-                id: "WmPQYaUUOkezEpt2RqgH1gyL-gzGzoHsz",
-                key: "HN4kVNAdvov7iSiCaIypDYiB",
-                serverURL: "https://wmpqyauu.lc-cn-n1-shared.com")
+                id: "JMBPc7y4SUPRDrOSHXjXVMN7-gzGzoHsz",
+                key: "Wib2dECd48h1FzivFrH628ju",
+                serverURL: "https://jmbpc7y4.lc-cn-n1-shared.com")
             GeneratedPluginRegistrant.register(with: self)
             return super.application(application, didFinishLaunchingWithOptions: launchOptions)
         } catch {
